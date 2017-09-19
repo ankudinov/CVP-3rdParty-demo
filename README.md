@@ -7,3 +7,5 @@ Requirements:
 - CVP lab with some switches in the lib container
 - cvprac
 - Jinja2
+- Flask
+- Flask-Bootstrap
