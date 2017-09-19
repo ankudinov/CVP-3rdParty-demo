@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script src="/d3.v4.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<body style="width:1100px;height:600px;border:1px lightgray solid;">
+
+<form class="form-horizontal" id="VLAN_form">
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="vlan_number">VLAN number:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="vlan_number" placeholder="Enter VLAN number">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="vlan_name">VLAN name:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="vlan_name" placeholder="Enter VLAN name">
+    </div>
+  </div>
+  <div class="checkbox">
+    <div class="col-sm-offset-2 col-sm-10 dyn-checkbox">
+        <!-- D3 will add checkboxes here -->
+    </div>
+  </div>
+  <br><br>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10" style="padding-top: 10px">
+      <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+  </div>
+</form>
+
+</body>
+
+<script>
+
+$(function(){
+    $('#VLAN_form').on('submit', function(event){
+        event.preventDefault();
+
+        var names = [];
+
+        $('input[type=checkbox]').each(function () {
+            if ($(this).is(':checked')) {
+                names.push($(this).attr("name"));
+            }
+        });
+
+        var formData = {
+            'vlan_number': $('input[id=vlan_number]').val(),
+            'vlan_name': $('input[id=vlan_name]').val(),
+            'checkbox': names
+        };
+
+        $.ajax({
+            url: '/processing',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            encode: true,
+            //success: location.href = "/success",
+            success: alert('Request sent to CVP!'),
+            traditional: true
+        });
+    });
+});
+
+d3.json("/json_data", function(error, json) {
+    if (error) throw error;
+
+    json.forEach(function(d) {
+        var checkbox = d3.select("div.dyn-checkbox").append("div")
+            .attr("class", "d3-checkbox")
+            .append("label");
+        checkbox.html("<input type=\"checkbox\" name=\""+d+"\">" + d);
+		});
+
+});
+
+</script>
+
+{% endblock %}
