@@ -5,6 +5,15 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename = 'favicon.ico') }}" type="image/vnd.microsoft.icon" />
     <link rel="icon" href="{{ url_for('static', filename = 'favicon.ico') }}" type="image/vnd.microsoft.icon" />
 
+    <style>
+    .fit-logo {
+    height: auto;
+    width: auto;
+    max-height: 25px;
+    max-width: 150px;
+    }
+    </style>
+
 {% endblock %}
 
 {% block title %} INNOVATE demo {% endblock %}
@@ -19,15 +28,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand navbar-brand-logo" href="/bgp">
+                <a class="navbar-brand navbar-brand-logo" href="/">
                     <div class="logo">
-                        <img src="{{ url_for('static', filename = 'acme-corp.png') }}">
+                        <img src="{{ url_for('static', filename = '2000px-acme-logo.png') }}" class="fit-logo">
                     </div>
                 </a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/">VLAN provisioning</a></li>
                     <li><a href="https://www.arista.com/en/">arista.com</a> </li>
                     <li><a href="http://bfy.tw/39To">Weather in California =)</a></li>
                 </ul>
