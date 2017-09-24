@@ -7,31 +7,109 @@
 
 <body style="width:1100px;height:600px;border:1px lightgray solid;">
 
-<form class="form-horizontal" id="VLAN_form">
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="vlan_number">VLAN number:</label>
-    <div class="col-sm-5">
-      <input type="text" class="form-control" id="vlan_number" placeholder="Enter VLAN number">
-    </div>
+<div class="panel panel-default pull-right" style="width:520px;height:400px;border:1px lightgray solid; margin:10px">
+  <div class="panel-heading">
+    <h3 class="panel-title">Ports to provision</h3>
   </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="vlan_name">VLAN name:</label>
-    <div class="col-sm-5">
-      <input type="text" class="form-control" id="vlan_name" placeholder="Enter VLAN name">
-    </div>
+
+  <div class="panel-body">
+
+      <ul class="nav nav-tabs">
+      <li class="active"><a  href="#1a" data-toggle="tab">LF01</a></li>
+      <li><a href="#2a" data-toggle="tab">LF02</a></li>
+      <li><a href="#3a" data-toggle="tab">LF03</a></li>
+      </ul>
+
+      <div class="tab-content clearfix">
+      <div class="tab-pane active" id="1a">
+      <svg style="margin:10px">
+        <g transform="translate(0,0)">
+          <rect style="width:30px;height:30px;fill:#bcc6d6;stroke:black;"></rect>
+          <text style="fill:black;" transform="translate(8,19)">E1</text>
+        </g>
+        <g transform="translate(33,0)">
+          <rect style="width:30px;height:30px;fill:#bcc6d6;stroke:black"></rect>
+          <text style="fill:black;" transform="translate(8,19)">E3</text>
+        </g>
+        <g transform="translate(66,0)">
+          <rect style="width:30px;height:30px;fill:#bcc6d6;stroke:black"></rect>
+          <text style="fill:black;" transform="translate(8,19)">E5</text>
+        </g>
+        <g transform="translate(99,0)">
+          <rect style="width:30px;height:30px;fill:#bcc6d6;stroke:black"></rect>
+          <text style="fill:black;" transform="translate(8,19)">E7</text>
+        </g>
+
+        <g transform="translate(0,33)">
+          <rect style="width:30px;height:30px;fill:#bcc6d6;stroke:black;"></rect>
+          <text style="fill:black;" transform="translate(8,19)">E2</text>
+        </g>
+        <g transform="translate(33,33)">
+          <rect style="width:30px;height:30px;fill:#bcc6d6;stroke:black;"></rect>
+          <text style="fill:black;" transform="translate(8,19)">E4</text>
+        </g>
+        <g transform="translate(66,33)">
+          <rect style="width:30px;height:30px;fill:#bcc6d6;stroke:black;"></rect>
+          <text style="fill:black;" transform="translate(8,19)">E6</text>
+        </g>
+        <g transform="translate(99,33)">
+          <rect style="width:30px;height:30px;fill:#bcc6d6;stroke:black;"></rect>
+          <text style="fill:black;" transform="translate(8,19)">E8</text>
+        </g>
+      </svg>
+      </div>
+
+      <div class="tab-pane" id="2a">
+      2a content
+      </div>
+
+      <div class="tab-pane" id="3a">
+      3a content
+      </div>
+      </div>
+
   </div>
-  <div class="checkbox">
-    <div class="col-sm-offset-2 col-sm-10 dyn-checkbox">
-        <!-- D3 will add checkboxes here -->
-    </div>
+
+</div>
+
+<div class="panel panel-default pull-left" style="width:520px;height:400px;border:1px lightgray solid; margin:10px">
+  <div class="panel-heading">
+    <h3 class="panel-title">VLAN to provision</h3>
   </div>
-  <br><br>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10" style="padding-top: 10px">
-      <button type="submit" class="btn btn-default">Submit</button>
-    </div>
+  <div class="panel-body">
+    <form class="form-horizontal" id="VLAN_form">
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="vlan_number" style="width: 150px;">VLAN number:</label>
+        <div class="col-sm-3">
+          <input type="text" class="form-control col-sm-5" id="vlan_number" placeholder="Enter VLAN number" style="width: 200px;">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="vlan_name" style="width: 150px;">VLAN name:</label>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" id="vlan_name" placeholder="Enter VLAN name" style="width: 200px;">
+        </div>
+      </div>
+      <div class="checkbox">
+        <label class="control-label col-sm-2" style="width: 300px; margin-bottom: 10px; text-align: left">
+          <strong>List of leaf switches to configure:</strong>
+          </label>
+        <div class="col-sm-offset-2 col-sm-10 dyn-checkbox">
+            <!-- D3 will add checkboxes here -->
+        </div>
+      </div>
+      <br><br>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10" style="padding-top: 10px">
+          <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+      </div>
+    </form>
   </div>
-</form>
+</div>
+
+<div id="add-alert-here" class="alert-bottom">
+</div>
 
 </body>
 
@@ -61,8 +139,12 @@ $(function(){
             data: formData,
             dataType: 'json',
             encode: true,
+            success: $('#add-alert-here').append("<div class=\"alert alert-success alert-dismissible\" role=\"alert\">\n" +
+                "  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n" +
+                "  <strong>Success!</strong> VLAN configlet was created and assigned to selected leafs on CVP.\n" +
+                "</div>"),
             //success: location.href = "/success",
-            success: alert('Request sent to CVP!'),
+            //success: alert('Request sent to CVP!'),
             traditional: true
         });
     });

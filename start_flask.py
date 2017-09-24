@@ -2,7 +2,7 @@
 
 __author__ = 'Petr Ankudinov'
 
-cvp_ip = '1.2.3.4'
+cvp_ip = '192.168.178.123'
 cvp_user = 'cvpadmin'
 cvp_password = 'arista'
 
@@ -80,7 +80,8 @@ def processing():
 
 @app.route('/success')
 def success():
-    return 'VLAN number: %s; VLAN name: %s; Checkboxes: %s' % (vlan_number, vlan_name, checkbox_list)
+    # return 'VLAN number: %s; VLAN name: %s; Checkboxes: %s' % (vlan_number, vlan_name, checkbox_list)
+    return render_template('success.html', vlan_number=vlan_number, vlan_name=vlan_name, checkbox_list=checkbox_list)
 
 
 @app.route("/json_data")
