@@ -2,8 +2,8 @@
 
 __author__ = 'Petr Ankudinov'
 
-cvp_ip = '192.168.178.123'
-cvp_user = 'cvpadmin'
+cvp_ip = '35.193.101.175'
+cvp_user = 'arista'
 cvp_password = 'arista'
 
 from flask import Flask, render_template, request
@@ -24,7 +24,7 @@ def load_cvp_data():
     clnt = CvpClient()
     clnt.connect([cvp_ip], cvp_user, cvp_password)
     api = CvpApi(clnt)
-    leaf_inventory = api.get_devices_in_container('LEAF')
+    leaf_inventory = api.get_devices_in_container('Leaf')
     leaf_fqdn_list = list()
     for element in leaf_inventory:
         hostname = re.split('\.', element['fqdn'])[0]
