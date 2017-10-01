@@ -25,7 +25,7 @@ def load_cvp_data():
     clnt = CvpClient()
     clnt.connect([cvp_ip], cvp_user, cvp_password)
     api = CvpApi(clnt)
-    leaf_inventory = api.get_devices_in_container('LEAF')
+    leaf_inventory = api.get_devices_in_container('Leaf')
     leaf_fqdn_list = list()
     for element in leaf_inventory:
         hostname = re.split('\.', element['fqdn'])[0]
