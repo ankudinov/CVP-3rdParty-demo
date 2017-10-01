@@ -2,8 +2,8 @@
 
 __author__ = 'Petr Ankudinov'
 
-cvp_ip = '35.193.101.175'
-cvp_user = 'arista'
+cvp_ip = '1.2.3.4'
+cvp_user = 'cvpadmin'
 cvp_password = 'arista'
 
 from flask import Flask, render_template, request
@@ -12,6 +12,7 @@ from flask_bootstrap import Bootstrap
 from cvprac.cvp_client import CvpClient
 from cvprac.cvp_api import CvpApi
 import re
+import time
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -24,7 +25,7 @@ def load_cvp_data():
     clnt = CvpClient()
     clnt.connect([cvp_ip], cvp_user, cvp_password)
     api = CvpApi(clnt)
-    leaf_inventory = api.get_devices_in_container('Leaf')
+    leaf_inventory = api.get_devices_in_container('LEAF')
     leaf_fqdn_list = list()
     for element in leaf_inventory:
         hostname = re.split('\.', element['fqdn'])[0]
@@ -51,6 +52,16 @@ def d3v4():
     return render_template("d3.v4.min.js")
 
 
+@app.route("/vlan-form.js")
+def vlan_form():
+    return render_template("vlan-form.js")
+
+
+@app.route("/port-form.js")
+def port_form():
+    return render_template("port-form.js")
+
+
 @app.route('/')
 def index():
     return render_template("innovate_test.html")
@@ -74,6 +85,35 @@ def processing():
     """ % (vlan_number, vlan_name)
 
     add_configlet(configlet_name, configlet_string, checkbox_list)  # send data to CVP
+
+    return 'Ignore'
+
+
+@app.route('/processing_ports', methods=['POST'])
+def processing_ports():
+    data = request.get_json()
+    config_dict = dict()
+    for e in data:
+        if e['switch'] not in config_dict.keys():
+            config_dict[e['switch']] = ''
+        if e['port_type'] == 'is-access':
+            config_dict[e['switch']] += """\
+interface Ethernet%s
+  switchport mode access
+  switchport access vlan %s
+!
+""" % (e['port'], e['port_vlan'])
+        if e['port_type'] == 'is-trunk':
+            config_dict[e['switch']] += """\
+interface Ethernet%s
+  switchport mode trunk
+  switchport trunk allowed vlan %s
+!
+""" % (e['port'], e['port_vlan'])
+
+    for switch, config in config_dict.items():
+        configlet_name = "3rd-party-port-%s-%s" % (switch, time.time())
+        add_configlet(configlet_name, config, [switch])  # send data to CVP
 
     return 'Ignore'
 
