@@ -2,8 +2,8 @@
 
 __author__ = 'Petr Ankudinov'
 
-cvp_ip = '1.2.3.4'
-cvp_user = 'cvpadmin'
+cvp_ip = '1.2.3.4'  # replace this IP
+cvp_user = 'arista'
 cvp_password = 'arista'
 
 from flask import Flask, render_template, request
